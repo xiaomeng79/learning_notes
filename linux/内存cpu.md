@@ -1,4 +1,4 @@
-- 查看进程使用内存
+#### 查看进程使用内存
 
 ```
 ps -e -o 'pid,comm,args,pcpu,rsz,vsz,stime,user,uid' | grep dist_game |  sort -nrk5

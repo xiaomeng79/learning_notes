@@ -1,7 +1,7 @@
 ## mysql
 
 
-### 协成不能使用事务
+### 协程不能使用事务
 
 >| [Golang+MySQL 事务](https://www.tuicool.com/articles/7feY3mB)
 
@@ -24,6 +24,6 @@ for rows.Next(){
 }
 ```
 
- *这个时候就会报错，buffer busy*
+ *如果2个协程同时操作一个tx，一个有查询，这个时候就会报错，buffer busy*
 
 

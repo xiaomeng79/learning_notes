@@ -5,6 +5,8 @@
 
 >| [Golang+MySQL 事务](https://www.tuicool.com/articles/7feY3mB)
 
+>| [官方](http://go-database-sql.org/)
+
 1. tx会从连接池中取一个空闲的连接，直至调用 commit 或者 rollback 才会释放
 
 2. 事务只有 一个连接 ，事务内的操作是 串行 的
@@ -25,5 +27,9 @@ for rows.Next(){
 ```
 
  *如果2个协程同时操作一个tx，一个有查询，这个时候就会报错，buffer busy*
+ 
+ #### 乱记
+ 
+ [不同数据库间迁移](https://github.com/golang-migrate/migrate)
 
 

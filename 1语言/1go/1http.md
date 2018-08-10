@@ -17,3 +17,19 @@
 	http.ListenAndServe(":3000",nil)
 	
 ```
+
+#### http 库的 Handler，HandlerFunc 和 ServeHTTP 的关系
+
+```go
+
+type Handler interface {
+    ServeHTTP(ResponseWriter, *Request)
+}
+
+type HandlerFunc func(ResponseWriter, *Request)
+
+func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request)
+    f(w, r)
+}
+
+```

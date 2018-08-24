@@ -8,7 +8,7 @@ PUT /test_index  //创建索引
 DELETE/test_index //删除索引
 
 ### 查询操作
-query string search:get参数
+query string search:get参数 +必须包含 -必须不包含
 query DSL es特有的查询
 query filter 查询过滤
 full-text query 全文查询 模糊匹配
@@ -25,7 +25,7 @@ PUT /test_index/product/3
   "price":36
 }
 
-修改：
+(partial update)修改:性能好：
 
 POST /test_index/product/3/_update
 {
@@ -135,4 +135,57 @@ GET /test_index/product/_search
 }
 ```
 
+### 脚本更新
+
+```
+POST shop/product/100/_update
+{
+  "script":"ctx._source.num+=1"
+}
+```
+### 重试跟新
+```
+POST shop/product/100/_update?retry_on_conflict=5&version=6
+```
+
+### 批量查询(_mget)
+
+```curl
+GET _mget
+{
+  "docs":[
+    {
+      "_index":"shop",
+      "_type":"product",
+      "_id":1
+    },
+        {
+      "_index":"shop",
+      "_type":"product",
+      "_id":2
+    }
+    ]
+}
+
+##index,type固定
+GET /shop/product/_mget
+{
+  "ids":[1,2]
+}
+```
+### 大量操作(_bulk)
+
+一般1000-5000条数据比较合适，因为先加载到内存，才执行
+bulk对json不能换行
+
+一个操作，2个json，delete除外
+delete：删除
+create:put /index/type/id/_create 强制删除
+index:普通的put操作
+update:执行partial update操作
+
+```curl
+POST /_bulk
+{"delete":{"_index":"shop","_type":"product","_id":1}}
+```
 

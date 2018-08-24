@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: mylimits
+spec:
+  limits:
+  - max:
+      cpu: "2"
+      memory: 1Gi
+    min:
+      cpu: 200m
+      memory: 6Mi
+    type: Pod
+
+  - default:
+      cpu: 300m
+      memory: 200Mi
+    defaultRequest:
+      cpu: 200m
+      memory: 100Mi
+    max:
+      cpu: "2"
+      memory: 1Gi
+    min:
+      cpu: 100m
+      memory: 3Mi
+    type: Container
+
+
+#pod
+#cpu最大限制2核, 最小200MHZ
+#内存最大限制1G, 最小6M
+
+#Container
+
+#cpu最大限制2核, 最小200MHZ
+#内存最大限制1G, 最小6M
+#默认启动cpu最大限制300MHZ, 内存最大限制200M
+
+#kubectl create -f limits.yaml -n xxx  #-n:namespace
+---
+#创建容器时候指定
+spec:
+  containers:
+  - image: gcr.io/google_containers/serve_hostname
+    imagePullPolicy: Always
+    name: kubernetes-serve-hostname
+    resources:
+      limits:
+        cpu: "1"
+        memory: 512Mi
+      requests:
+        cpu: "1"
+        memory: 512Mi

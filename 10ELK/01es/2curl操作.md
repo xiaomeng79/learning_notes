@@ -178,6 +178,8 @@ GET /shop/product/_mget
 一般1000-5000条数据比较合适，因为先加载到内存，才执行
 bulk对json不能换行
 
+bulk就是将一条条的数据分发给不同的shard进行处理，提高吞吐量，bulk操作中，任意一个操作失败，是不会影响其他的操作的
+
 一个操作，2个json，delete除外
 delete：删除
 create:put /index/type/id/_create 强制删除

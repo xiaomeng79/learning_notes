@@ -1,5 +1,7 @@
 ## 分布式ID生成器
 
+[go雪花库](https://github.com/sony/sonyflake)
+
 [参考](https://github.com/chai2010/advanced-go-programming-book/blob/master/ch6-cloud/ch6-02-dist-id.md)
 
 全局唯一性：不能出现重复的ID号，既然是唯一标识，这是最基本的要求。

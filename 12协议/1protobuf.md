@@ -24,7 +24,7 @@ message Message {
 }
 ```
 
-2. 验证数据
+2. [验证数据](https://github.com/mwitkow/go-proto-validators)
 
 ```shell
     go get github.com/mwitkow/go-proto-validators/protoc-gen-govalidators

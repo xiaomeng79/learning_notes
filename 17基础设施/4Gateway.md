@@ -6,7 +6,12 @@
 
 ### Gateway
 
-1. [traefik](https://github.com/containous/traefik) 推荐
+1. [traefik](https://github.com/containous/traefik) 推荐 [文档](https://docs.traefik.io)
+
+一图胜千言
+
+![图1](https://docs.traefik.io/img/architecture.png)
+![图2](https://docs.traefik.io/img/internal.png)
 
 2. [kong](https://github.com/Kong/kong) [官网](https://konghq.com)
 

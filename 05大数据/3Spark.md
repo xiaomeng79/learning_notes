@@ -1,5 +1,9 @@
 ## Spark
 
+[官网](http://spark.apache.org/)
+
+![spark](http://spark.apache.org/images/spark-stack.png)
+
 ### RDD
 
 RDD叫做弹性分布式数据集(Resilient Distributed Datasets)，它是一种分布式的内存抽象，表示一个只读的记录分区的集合，它只能通过其他RDD转换而创建，为此，RDD支持丰富的转换操作(如map, join, filter, groupBy等)，通过这种转换操作，新的RDD则包含了如何从其他RDDs衍生所必需的信息，所以说RDDs之间是有依赖关系的

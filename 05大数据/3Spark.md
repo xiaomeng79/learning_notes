@@ -1,5 +1,6 @@
 ## Spark
 
+[中文文档](http://cwiki.apachecn.org/display/Spark/Spark+R)
 [官网](http://spark.apache.org/)
 
 ![spark](http://spark.apache.org/images/spark-stack.png)

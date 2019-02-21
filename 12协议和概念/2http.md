@@ -17,3 +17,9 @@
 - 多路复用（或连接共享）
 - 头部压缩
 - 服务器推送
+
+#### HTTPS
+
+[参考](https://www.jianshu.com/p/b0b6b88fe9fe)
+
+![图片](https://upload-images.jianshu.io/upload_images/2829175-9385a8c5e94ad1da.png)

@@ -1,12 +1,12 @@
 ## TCP协议
 
-![详解](https://blog.csdn.net/sinat_36629696/article/details/80740678)
+[详解](https://blog.csdn.net/sinat_36629696/article/details/80740678)
 
 #### 概念
 
 TCP（Transmission Control Protocol 传输控制协议）是一种面向连接的、可靠的、基于字节流的传输层通信协议
 
-![报头](https://img-blog.csdn.net/20180620002403691?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzM2NjI5Njk2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+![报头](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550831289051&di=49988fcf8c9c2d8a671bcdddf45b6fc1&imgtype=0&src=http%3A%2F%2Fs7.sinaimg.cn%2Fmw690%2F002VjLvpzy74IaeCAPs76)
 
 #### TCP标志位
 
@@ -16,7 +16,8 @@ TCP（Transmission Control Protocol 传输控制协议）是一种面向连接�
 - RST(reset重置) 
 - SYN(synchronous建立联机) 
 - FIN(finish结束) 
-- Seq Sequence number(顺序号码) 
+
+ Seq Sequence number(顺序号码) 
 
 
 #### 三次握手
@@ -109,5 +110,14 @@ TCP引入**慢启动**机制, 先发少量的数据, 探探路, 摸清当前的�
  粘包问题中的 “包”, 是指**应用层的数据包**
  
  避免粘包问题: 按照固定大小读取,对于变长的包,约定数据包的总长度
+ 
+#### .tcp和udp的区别
+     
+1. TCP面向连接(如打电话要先拨号建立连接);UDP是无连接的，即发送数据之前 不需要建立连接
+2. TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失， 不重复，且按序到达;UDP尽最大努力交付，即不保证可靠交付
+3. TCP面向字节流，实际上是TCP把数据看成一连串无结构的字节流;UDP是面向 报文的，UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低
+4. 每一条TCP连接只能是点到点的;UDP支持一对一，一对多，多对一和多对多的 交互通信
+5. TCP首部开销20字节;UDP的首部开销小，只有8个字节
+6. TCP的逻辑通信信道是全双工的可靠信道，UDP则是不可靠信道
  
 

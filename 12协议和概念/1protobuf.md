@@ -2,7 +2,11 @@
 
 [参考](https://github.com/chai2010/advanced-go-programming-book/blob/master/ch4-rpc/ch4-06-grpc-ext.md)
 
-### 拓展
+#### 概念
+
+Protocol buffers是一个灵活的、高效的、自动化的用于对结构化数据进行序列化的协议
+
+#### 拓展
 
 1. 默认值
 

@@ -3,7 +3,7 @@
 
 [概念](https://www.cnblogs.com/jun-ma/p/4840869.html)
 
-[教程](https://www.jianshu.com/p/1c1efb462879)
+[教程](https://github.com/rabbitmq/rabbitmq-tutorials)
 
 [queue参数](https://www.cnblogs.com/LiangSW/p/6218886.html)
 
@@ -46,6 +46,8 @@
 exchange接收到消息后，就根据消息的key和已经设置的binding，进行消息路由，将消息投递到一个或多个队列里。
 
 ### 模式
+
+[详细的图](http://www.rabbitmq.com/getstarted.html)
 
 1. 点对点模式
     1. 直接点对点

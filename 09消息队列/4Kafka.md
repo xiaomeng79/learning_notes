@@ -6,11 +6,25 @@
 
 [深入研究](https://www.cnblogs.com/xifenglou/p/7251112.html)
 
+#### 架构图
+
+![架构图1](http://www.uml.org.cn/bigdata/images/2017072521.png)
+
+![架构图2](https://images2015.cnblogs.com/blog/512650/201611/512650-20161103135336861-18609635.png)
+
+#### 概念
+
+Kafka是一个开源的、分布式的、可分区的、可复制的基于日志提交的发布订阅消息系统
+
+特点: 消息持久化  高吞吐量  分布式  多Client支持  实时
+
 1. kafka管理
+
 所有的broker都去zk上注册一个临时节点，只有一个可以注册成功，这个就是leader(controller)，其他就是broker follower
 leader会watch broker follower ,一旦有宕机的，就会读取zk上这个broker的partition，并选举ISR中replica作为partition leader
 
 2. 为什么kafka只能同一个组中的一个consumer去消费数据
+
 因为不想使用悲观锁来控制并发，这样吞吐量会下降,如果觉得效率不高的时候，加partition的数量来横向拓展，如果想多个不同的业务消费同样的数据
 就启动多个consumer group，最优的设计就是，consumer group下的consumer thread的数量等于partition数量，这样效率是最高的
 

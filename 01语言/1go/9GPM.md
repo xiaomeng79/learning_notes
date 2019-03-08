@@ -43,6 +43,49 @@
 - 当无缓存通道,不具备同时写入和读取就绪的情况下,写入数据或者读取数据
 - 
 
+### goroutine leak（协程泄露)
+
+#### 原因
+1. goroutine由于channel的读/写端退出而一直阻塞，导致goroutine一直占用资源，而无法退出
+2. goroutine进入死循环中，导致资源一直无法释放
+
+### 协程的优雅退出
+
+1. for range
+
+```go
+go func(in <-chan int) {
+    // Using for-range to exit goroutine
+    // range has the ability to detect the close/end of a channel
+    for x := range in {
+        fmt.Printf("Process %d\n", x)
+    }
+}(inCh)
+
+```
+
+2. 使用,ok退出
+
+```go
+go func() {
+    // in for-select using ok to exit goroutine
+    for {
+        select {
+        case x, ok := <-in:
+            if !ok {
+                return
+            }
+            fmt.Printf("Process %d\n", x)
+            processedCnt++
+        case <-t.C:
+            fmt.Printf("Working, processedCnt = %d\n", processedCnt)
+        }
+    }
+}()
+```
+
+3. context包
+
 ### 总结
 ![搬砖](https://pic1.zhimg.com/80/v2-e368c077748ac049336b8efaf06753f8_hd.png)
 

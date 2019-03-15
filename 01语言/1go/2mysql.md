@@ -3,9 +3,9 @@
 
 ### 协程不能使用事务
 
->| [Golang+MySQL 事务](https://www.tuicool.com/articles/7feY3mB)
+[Golang+MySQL 事务](https://www.tuicool.com/articles/7feY3mB)
 
->| [官方](http://go-database-sql.org/)
+[官方](http://go-database-sql.org/)
 
 1. tx会从连接池中取一个空闲的连接，直至调用 commit 或者 rollback 才会释放
 

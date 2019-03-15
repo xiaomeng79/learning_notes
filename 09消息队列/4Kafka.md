@@ -1,6 +1,6 @@
 ## Kafka
 
-[概念](https://www.cnblogs.com/likehua/p/3999538.html)
+[小白也懂](http://www.sohu.com/a/144225753_236714)
 
 [详细原理](https://blog.csdn.net/ychenfeng/article/details/74980531)
 
@@ -36,7 +36,7 @@ leader会watch broker follower ,一旦有宕机的，就会读取zk上这个brok
     producer发送信息给broker不通，会刷新broker的元信息，或定期刷新
     consumer 会连接zookeeper 获取元信息
     
-5. topic 下会有多个partition ，partiton leader会提供消息的读写，replica只会备份消息，待leader crash，恢复使用 ，还有ISR中的选举leader
+5. topic 下会有**多个partition** ，partiton leader会提供消息的读写，replica只会备份消息，待leader crash，恢复使用 ，还有ISR中的选举leader
    
    
 6. 数据只能写入leader，然后follower周期性的拉数据，if leader crash，no commit，data missing
@@ -63,6 +63,19 @@ execfy once：最少1次+已处理消息的最大编号
 12. kafka将topic分布在不同的partition上，不同的partition下存在index和log segment,index为稀疏索引，记录offset区间，leader partition  每次commit时候，产生一个segment，当达到
 一定的时间或者空间限制的时候，segment才会被删除，不会立马消费就删除,所有也可以达到消息重放的效果
 
+13. kafka的消息是否会丢失
+kafka发送消息的方式(producer.type属性进行配置):同步(直接发送),异步(**在客户端缓存到一定数量发送**)
+kafka保证消息被安全生产, 通过request.required.acks属性进行配置: 0(不确认) 1(leader接收成功) -1(leader,follower都接收成功)
+想要更高的吞吐量就设置：异步、ack=0；想要不丢失消息数据就选：同步、ack=-1策略
+
+    - 网络异常 ,消息不需要确认
+    - 客户端异常,消息异步发送
+    - 缓存区满了,消息丢失
+    - 确认属性为1,消息未同步给follower,leader挂了
+    
+14. controller
+
+kafka在所有broker中选出一个controller，所有Partition的Leader选举都由controller决定。controller会将Leader的改变直接通过RPC的方式（比Zookeeper Queue的方式更高效）通知需为此作出响应的Broker。同时controller也负责增删Topic以及Replica的重新分配
 
 
 

@@ -17,6 +17,7 @@ CSRF（Cross-site request forgery）攻击者可以盗用你的登陆信息，�
 1. 每次验证token(没受到XSS攻击有效)
 2. 每次输入验证码(用户体验差)
 3. 每次输入token+防重放攻击的唯一值
+4. 验证请求头(Referer)
 
 
 

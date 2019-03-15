@@ -1,6 +1,7 @@
 ## protobuf
 
 [参考](https://github.com/chai2010/advanced-go-programming-book/blob/master/ch4-rpc/ch4-06-grpc-ext.md)
+[自动生成](https://github.com/izumin5210/grapi)
 
 #### 概念
 

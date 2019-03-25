@@ -72,3 +72,9 @@ HFile就是Hadoop磁盘文件，一个列族中的数据保存在一个或多个
 
 - HLog: 
 HLog(WAL log)：WAL意为write ahead log，用来做灾难恢复使用，HLog记录数据的所有变更，一旦region server 宕机，就可以从log中进行恢复
+
+
+#### 应用场景
+
+应用在离线的大数据分析和统计场景中,列操作,数据写入后无须更新和删除
+

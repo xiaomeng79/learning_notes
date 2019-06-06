@@ -1,5 +1,7 @@
 ## influxdb
 
+[官方文档](https://docs.influxdata.com/influxdb/v1.7/)
+
 ## 与传统数据库的比较
 
 - 存储成本大：对于时序数据压缩不佳，需占用大量机器资源
@@ -27,3 +29,26 @@
 ## 存储的原理
 
 - 索引:由于其在查询和顺序插入时有利于减少寻道次数的组织形式,传统的数据库采用B Tree,
+- TSM存储引擎:根据LSM Tree针对时间序列数据优化而来
+
+## 概念
+
+[InfluxDB详解之TSM存储引擎解析](http://blog.fatedier.com/2016/08/05/detailed-in-influxdb-tsm-storage-engine-one/)
+
+### 数据格式
+- database:数据库名称 物理隔离数据文件
+- retention policy:存储策略,用于定期清除过期数据
+- measurement: 测量指标名(表名)，例如 cpu_usage 表示 cpu 的使用率
+- tag sets: tags 在 InfluxDB 中会按照字典序排序,索引
+- field sets: 字段值,可以设置多个,底层是当做多条数据存储
+- timestamp: 每一条数据都需要指定一个时间戳
+
+### Point
+InfluxDB 中单条插入语句的数据结构，series + timestamp 可以用于区别一个 point，也就是说一个 point 可以有多个 field name 和 field value
+
+### Series
+相当于是 InfluxDB 中一些数据的集合,series 的key为measurement + 所有 tags 的序列化字符串
+
+### Shard
+根据 retention policy 分割数据,存储成一个shard,每个shard就是一个tsm存储引擎
+

@@ -1,0 +1,46 @@
+version: "3"
+services:
+  mysqldbt:
+    image: 'mysql/mysql-server:5.7'
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: user
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    volumes:
+    - mysql-data-test:/var/lib/mysql
+    - ./config/mysql/my.cnf:/etc/my.cnf
+    - ./config/mysql/:/docker-entrypoint-initdb.d/
+    ports:
+    - '3307:3306'
+  postgres-send:
+    image: 'postgres:11.4-alpine'
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: meng
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+    - ./pgdata/send_data:/var/lib/postgresql/data/pgdata
+    - ./config/postgres/:/docker-entrypoint-initdb.d/
+    ports:
+    - '5432:5432'
+  postgres-sub:
+    image: 'postgres:11.4-alpine'
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: meng
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+    - ./pgdata/sub_data:/var/lib/postgresql/data/pgdata
+    - ./config/postgres/:/docker-entrypoint-initdb.d/
+    ports:
+    - '5433:5432'
+# 这个是测试
+
+volumes:
+  mysql-data-test:
+  postgres-data-send:
+  postgres-data-sub:
+

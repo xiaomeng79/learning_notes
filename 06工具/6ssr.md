@@ -2,6 +2,12 @@
 
 [autossr](http://voken.io/zh_CN/latest/services/autossr.html)
 
+#### 访问不了`raw.githubusercontent.com`
+```bash
+#vim /etc/hosts
+199.232.68.133 raw.githubusercontent.com
+```
+
 #### 订阅服务器
 ```bash
 在以下 3 个链接中的一个或多个，并且添加至你的 SSR 客户端：

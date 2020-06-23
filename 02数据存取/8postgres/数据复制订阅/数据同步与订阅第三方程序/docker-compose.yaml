@@ -1,0 +1,69 @@
+version: "3"
+services: 
+  postgres-pub:
+    image: 'postgres:11.4-alpine'
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: meng
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+    - ./pg_data:/var/lib/postgresql/data
+    - ./pgconfig/:/docker-entrypoint-initdb.d/
+    ports:
+    - '5432:5432'
+  postgres-sub:
+    image: 'postgres:11.4-alpine'
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: meng
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+    - ./pg_sub_data:/var/lib/postgresql/data
+    - ./pgconfig/:/docker-entrypoint-initdb.d/
+    ports:
+    - '5433:5432'
+  zookeeper:
+    image: wurstmeister/zookeeper
+    restart: always
+    ports:
+    - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka
+    restart: always
+    ports:
+    - "9092:9092"
+    depends_on:
+    - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.10.128
+      KAFKA_CREATE_TOPICS: "student_name_logs:1:2"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    hostname: prometheus
+    restart: always
+    volumes:
+     - ./preconfig/prometheus.yml:/etc/prometheus/prometheus.yml
+     - ./preconfig/node_down.yml:/etc/prometheus/node_down.yml
+    ports:
+     - "9090:9090"
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alertmanager
+    hostname: alertmanager
+    restart: always
+    volumes:
+     - ./preconfig/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    ports:
+     - "9093:9093"
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    hostname: grafana
+    restart: always
+    ports:
+    - "3000:3000"
+

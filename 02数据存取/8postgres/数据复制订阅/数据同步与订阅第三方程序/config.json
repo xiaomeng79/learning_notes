@@ -1,0 +1,26 @@
+{
+    "pg_dump_path": "",
+    "subscribes": [{
+        "dump": false,
+        "slotName": "slot_for_kafka",
+        "pgConnConf": {
+            "host": "192.168.10.128",
+            "port": 5432,
+            "database": "test",
+            "user": "postgres",
+            "password": "meng"
+        },
+        "rules": [
+            {
+                "table": "student",
+                "pks": ["id"],
+                "topic": "student_name_logs"
+            }
+        ],
+        "kafkaConf": {
+            "addrs": ["192.168.10.128:9092"]
+        },
+        "retry": 0
+    }],
+    "prometheus_address": ":8080"
+}

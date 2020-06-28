@@ -9,7 +9,26 @@
 [中文文档](https://whmzsu.github.io/helm-doc-zh-cn/quickstart/quickstart-zh_cn.html)
 
 
-### 安装步骤
+#### helm一些国内的仓库
+```bash
+# 增加仓库
+helm repo add aliyuncs https://apphub.aliyuncs.com
+# 国内源
+bitnami  	https://charts.bitnami.com/bitnami                         
+aliyuncs 	https://apphub.aliyuncs.com                                
+gitlab   	https://charts.gitlab.io/                                  
+aliyun   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts     
+incubator	https://kubernetes-charts-incubator.storage.googleapis.com/
+stable   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts  
+```
+
+#### 常见错误
+1. Error: unable to build kubernetes objects from release manifest: unable to recognize "": no matches for kind "Deployment" in version "extensions/v1beta1"
+```bash
+grep -irl "extensions/v1beta1" jenkins | grep deploy | xargs sed -i 's#extensions/v1beta1#apps/v1#g'
+```
+
+#### ~~安装步骤(版本2)~~
 ```bash
 kubectl create serviceaccount --namespace=kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller

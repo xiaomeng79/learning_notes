@@ -1,0 +1,45 @@
+// Build periodically H/2 * * * *
+podTemplate(containers: [
+    containerTemplate(name: 'golang', image: 'golang:1.14.4-stretch', ttyEnabled: true, command: 'cat'),
+    containerTemplate(name: 'docker', image: 'docker:latest', ttyEnabled: true, command: 'cat'),
+    containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:latest', ttyEnabled: true, command: 'cat')
+  ],
+  volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')]
+  ) {
+
+    node(POD_LABEL) {
+        stage('clone code ') {
+            echo "clone code"
+            git changelog: false, credentialsId: 'git', poll: false, url: '仓库地址/test01'
+            container('golang') {
+                stage('test code') {
+                    echo "test code"
+                    sh "go env -w GOPROXY=https://goproxy.cn,direct"
+                    sh "make test"
+                }
+            }
+            container('docker') {
+                    stage('docker build image') {
+                        sh 'docker -H tcp://192.168.10.128:2375 build -t 镜像仓库地址/test01:v${BUILD_NUMBER} .'
+                    }
+                    stage('docker push image') {
+                        withCredentials([usernamePassword(credentialsId:'git',usernameVariable:'username',passwordVariable:'passwd')]) {
+                            sh 'docker login --username=${username} --password=${passwd} gitlab.o.highershine.com:4567'
+                            sh 'docker -H tcp://192.168.10.128:2375 push 镜像仓库地址/test01:v${BUILD_NUMBER}'
+                         }
+                    }
+            }
+            container('kubectl') {
+                    stage('k8s deploy') {
+                        withCredentials([string(credentialsId:'kube-config',variable:'K8S_CONFIG')]) {
+                            echo "k8s deploy"
+                            sh "mkdir -p ~/.kube"
+                            sh "@echo ${K8S_CONFIG} | base64 -d > ~/.kube/config"
+                            sh "sed -i 's/<BUILD_NUMBER>/${BUILD_NUMBER}/' dev.yaml"
+                            sh 'kubectl apply -f dev.yaml'
+                        }
+                    }
+            }
+        }
+    }
+}

@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: api-test01
+spec:
+  selector:
+    matchLabels:
+      app: api-test01
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: api-test01
+        version: v1
+    spec:
+
+      #      serviceAccountName: test-name
+      imagePullSecrets:
+      - name: registry-secret
+      containers:
+        - name: api-test01
+          env:
+            - name: RAND_NUM
+              value: num<BUILD_NUMBER>
+          image: 镜像仓库地址/test01:v<BUILD_NUMBER>
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 1323
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-test01
+  namespace: default
+  labels:
+    app: api-test01
+spec:
+  ports:
+    - port: 8888
+      protocol: TCP
+      targetPort: 1323
+  selector:
+    app: api-test01
+#  type: LoadBalancer
+#  type: NodePort
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test01-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.frontend.rule.type: PathPrefixStrip
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /test01
+            backend:
+              serviceName: api-test01
+              servicePort: 8888

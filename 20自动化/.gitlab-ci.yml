@@ -1,0 +1,46 @@
+image: docker:stable
+stages:  # 阶段
+  - test_code
+  - docker_build
+  - deploy_k8s
+
+variables: # 声明环境变量
+  BUILD_TAG: 1.0.
+  IMAGE: 镜像仓库地址/test01:v${BUILD_TAG}
+
+test_code_job:
+  stage: test_code
+  image: golang:1.14.4-stretch
+  only:
+    - master
+  tags: # CI tag 名称
+    - k8s-runner
+  script: # 构建命令
+    - echo "test code"
+    - go env -w GOPROXY=https://goproxy.cn,direct
+    - make test
+
+docker_build_job:
+  stage: docker_build
+  image: docker:stable
+  only:
+    - master
+  tags: # CI tag 名称
+    - k8s-runner
+  script: # 构建命令
+    - docker login -u ${IMAGE_REPO_USER} -p ${IMAGE_REPO_PWD} gitlab.o.highershine.com:4567
+    - docker build -t ${IMAGE}${CI_PIPELINE_ID}  .
+    - docker push ${IMAGE}${CI_PIPELINE_ID}
+
+deploy_k8s_job:
+  image: registry.cn-hangzhou.aliyuncs.com/haoshuwei24/kubectl:1.16.6
+  stage: deploy_k8s
+  tags:
+    - k8s-runner
+  script:
+    - mkdir -p ~/.kube
+    - echo ${K8S_CONFIG} | base64 -d > ~/.kube/config
+    - sed -i "s/<BUILD_NUMBER>/${BUILD_TAG}${CI_PIPELINE_ID}/g" dev.yaml
+    - cat dev.yaml
+    - kubectl apply -f dev.yaml
+

@@ -1,0 +1,77 @@
+pipeline {
+  agent {
+    kubernetes {
+      yaml """
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        labels:
+          app: jenkins-cicd
+      spec:
+        containers:
+          - name: golang
+            image: golang:1.14.4-stretch
+            command:
+              - cat
+            tty: true
+          - name: docker
+            image: docker:stable
+            command:
+              - cat
+            tty: true
+          - name: kubectl
+            image: registry.cn-hangzhou.aliyuncs.com/haoshuwei24/kubectl:1.16.6
+            command:
+              - cat
+            tty: true
+      """
+    }
+  }
+  stages {
+      stage('clone code ') {
+          steps {
+              echo "clone code"
+              git changelog: false, credentialsId: 'git', poll: false, url: '仓库地址/test01'
+          }
+      }
+      stage('test code') {
+          steps {
+              container('golang') {
+                    echo "test code"
+                    sh "go env -w GOPROXY=https://goproxy.cn,direct"
+                    sh "make test"
+              }
+          }
+      }
+      stage('build image') {
+          steps {
+              container('docker') {
+                  sh 'docker -H tcp://192.168.10.128:2375 build -t 镜像仓库地址/test01:v${BUILD_NUMBER} .'
+              }
+          }
+      }
+      stage('push image') {
+          steps {
+              container('docker') {
+                  withCredentials([usernamePassword(credentialsId:'git',usernameVariable:'username',passwordVariable:'passwd')]) {
+                      sh 'docker login --username=${username} --password=${passwd} gitlab.o.highershine.com:4567'
+                      sh 'docker  push 镜像仓库地址/test01:v${BUILD_NUMBER}'
+                  }
+              }
+          }
+      }
+      stage('k8s deploy') {
+          steps {
+              container('kubectl') {
+                  withCredentials([string(credentialsId:'kube-config',variable:'K8S_CONFIG')]) {
+                      echo "k8s deploy"
+                      sh "mkdir -p ~/.kube"
+                      sh "echo ${K8S_CONFIG} | base64 -d > ~/.kube/config"
+                      sh "sed -i 's/<BUILD_NUMBER>/${BUILD_NUMBER}/' dev.yaml"
+                      sh 'kubectl apply -f dev.yaml'
+                  }
+              }
+          }
+      }
+  }
+}

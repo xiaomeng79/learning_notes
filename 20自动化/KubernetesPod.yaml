@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: jenkins-cicd
+spec:
+  containers:
+    - name: golang
+      image: golang:1.14.4-stretch
+      command:
+        - cat
+      tty: true
+    - name: docker
+      image: docker:latest
+      command:
+        - cat
+      tty: true
+    - name: kubectl
+      image: lachlanevenson/k8s-kubectl:latest
+      command:
+        - cat
+      tty: true

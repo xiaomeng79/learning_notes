@@ -54,7 +54,7 @@ pipeline {
           steps {
               container('docker') {
                   withCredentials([usernamePassword(credentialsId:'git',usernameVariable:'username',passwordVariable:'passwd')]) {
-                      sh 'docker login --username=${username} --password=${passwd} gitlab.o.highershine.com:4567'
+                      sh 'docker login --username=${username} --password=${passwd} 镜像仓库地址'
                       sh 'docker  push 镜像仓库地址/test01:v${BUILD_NUMBER}'
                   }
               }

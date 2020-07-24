@@ -28,7 +28,7 @@ docker_build_job:
   tags: # CI tag 名称
     - k8s-runner
   script: # 构建命令
-    - docker login -u ${IMAGE_REPO_USER} -p ${IMAGE_REPO_PWD} gitlab.o.highershine.com:4567
+    - docker login -u ${IMAGE_REPO_USER} -p ${IMAGE_REPO_PWD} 镜像仓库地址
     - docker build -t ${IMAGE}${CI_PIPELINE_ID}  .
     - docker push ${IMAGE}${CI_PIPELINE_ID}
 

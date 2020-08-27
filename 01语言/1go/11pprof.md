@@ -74,3 +74,8 @@ type MemStats struct {
     }
 }
 ```
+
+### web
+```bash
+ go tool pprof http://127.0.0.1:6060/debug/pprof/heap
+```

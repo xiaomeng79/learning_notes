@@ -10,6 +10,8 @@
 
 - [Dockerfile文件](./Dockerfile)
 
+- [gitlab-runner](gitlab-runner-0.18.1.tgz)
+
 - [Jenkins配置模板](./Jenkinsfile)
 
 - [gitlab配置模板](.gitlab-ci.yml)

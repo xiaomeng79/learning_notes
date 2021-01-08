@@ -15,3 +15,5 @@
 - [Jenkins配置模板](./Jenkinsfile)
 
 - [gitlab配置模板](.gitlab-ci.yml)
+
+- [FAQ](FAQ.md)

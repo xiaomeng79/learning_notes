@@ -1,15 +1,15 @@
 image: docker:stable
 stages:  # 阶段
-  - test_code
-  - docker_build
-  - deploy_k8s
+  - test
+  - build
+  - deploy
 
 variables: # 声明环境变量
   BUILD_TAG: 1.0.
   IMAGE: 镜像仓库地址/test01:v${BUILD_TAG}
 
-test_code_job:
-  stage: test_code
+test_job:
+  stage: test
   image: golang:1.14.4-stretch
   only:
     - master
@@ -20,21 +20,24 @@ test_code_job:
     - go env -w GOPROXY=https://goproxy.cn,direct
     - make test
 
-docker_build_job:
-  stage: docker_build
+build_job:
+  stage: build
   image: docker:stable
   only:
     - master
   tags: # CI tag 名称
     - k8s-runner
   script: # 构建命令
-    - docker login -u ${IMAGE_REPO_USER} -p ${IMAGE_REPO_PWD} 镜像仓库地址
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
     - docker build -t ${IMAGE}${CI_PIPELINE_ID}  .
     - docker push ${IMAGE}${CI_PIPELINE_ID}
 
-deploy_k8s_job:
+deploy_job:
   image: registry.cn-hangzhou.aliyuncs.com/haoshuwei24/kubectl:1.16.6
-  stage: deploy_k8s
+  stage: deploy
+  environment:
+    name: production #必须完全匹配
+    url: http://xxx/test01/healthy
   tags:
     - k8s-runner
   script:

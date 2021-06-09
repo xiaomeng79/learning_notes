@@ -1,8 +1,8 @@
 ## 生成changelog
 
 - [changelog介绍](http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)
-
 - [git-commit-msg](http://karma-runner.github.io/5.2/dev/git-commit-msg.html)
+- [go生成changelog](github.com/git-chglog/git-chglog)
 
 ### 如何生成
 

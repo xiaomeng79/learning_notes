@@ -143,7 +143,7 @@ POST shop/product/100/_update
   "script":"ctx._source.num+=1"
 }
 ```
-### 重试跟新
+### 重试更新
 ```
 POST shop/product/100/_update?retry_on_conflict=5&version=6
 ```

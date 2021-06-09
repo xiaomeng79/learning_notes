@@ -6,7 +6,6 @@
 
 TCP（Transmission Control Protocol 传输控制协议）是一种面向连接的、可靠的、基于字节流的传输层通信协议
 
-![报头](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550831289051&di=49988fcf8c9c2d8a671bcdddf45b6fc1&imgtype=0&src=http%3A%2F%2Fs7.sinaimg.cn%2Fmw690%2F002VjLvpzy74IaeCAPs76)
 
 #### TCP标志位
 
@@ -22,7 +21,6 @@ TCP（Transmission Control Protocol 传输控制协议）是一种面向连接�
 
 #### 三次握手
 
-![](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550206704112&di=e42bb22420af3be5ad47c29bcce8eb58&imgtype=0&src=http%3A%2F%2Fs1.51cto.com%2Fwyfs02%2FM00%2F81%2F92%2FwKiom1dF0GawT2NFAAAr9T4KX6s438.jpg-s_1494453554.jpg)
 
 1. 第一次握手：主机A发送位码为SYN＝1，随机产生**序号**(seq number)=1234567的数据包到服务器，主机B由SYN=1知道，A要求建立联机；
 2. 第二次握手：主机B收到请求后要确认联机信息，向A发送**确认序号**(ack number)=(主机A的seq+1)，SYN=1，ACK=1，随机产生seq=7654321的包；
@@ -38,7 +36,6 @@ TCP（Transmission Control Protocol 传输控制协议）是一种面向连接�
 
 #### 四次挥手
 
-![4](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559877906&di=c4de38c49765ba61c3d6c03b6ad9755b&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.pc-fly.com%2Fuploads%2Fallimg%2F20170516%2F1494943585801_2.jpg)
 
 1. 客户端进程发出连接释放报文，并且停止发送数据,释放数据报文首部，FIN=1，其序列号为seq=u（等于前面已经传送过来的数据的最后一个字节的序号加1），此时客户端进入FIN-WAIT-1（终止等待1）状态。 TCP规定，FIN报文段即使不携带数据，也要消耗一个序号
 2. 服务器收到连接释放报文，发出确认报文，ACK=1，确认序号为 u+1，并且带上自己的序列号seq=v，此时服务端就进入了CLOSE-WAIT（关闭等待）状态

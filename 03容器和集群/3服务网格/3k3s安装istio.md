@@ -6,5 +6,3 @@
 ```bash
 k3d create --server-arg --no-deploy --server-arg traefik --name istio-test
 ```
-
-3. 

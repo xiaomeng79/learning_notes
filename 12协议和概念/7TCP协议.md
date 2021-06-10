@@ -1,6 +1,7 @@
 ## TCP协议
 
-[详解](https://blog.csdn.net/sinat_36629696/article/details/80740678)
+- [详解](https://blog.csdn.net/sinat_36629696/article/details/80740678)
+- [TCP三次握手和四次挥手](https://zhuanlan.zhihu.com/p/40013850)
 
 #### 概念
 

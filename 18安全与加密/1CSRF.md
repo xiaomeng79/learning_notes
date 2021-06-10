@@ -1,8 +1,10 @@
 ## CSRF
 
+- [CSRF介绍](https://zhuanlan.zhihu.com/p/114750961)
+
 ### 概念
 
-CSRF（Cross-site request forgery）攻击者可以盗用你的登陆信息，以你的身份模拟发送各种请求
+CSRF（Cross-site request forgery）跨站请求伪造 攻击者可以盗用你的登陆信息，以你的身份模拟发送各种请求
 主要是因为Web的隐式身份验证机制，Web的身份验证机制虽然可以保证一个请求是来自于某个用户的浏览器，但却无法保证该请求是用户批准发送的。
 
 

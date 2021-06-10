@@ -1,5 +1,7 @@
 ## XSS
 
+- [XSS介绍](https://zhuanlan.zhihu.com/p/98938342)
+
 #### 概念
 
 XSS(Cross Site Scripting) 在有漏洞的程序中插入JavaScript、VBScript、 ActiveX或Flash以欺骗用户,一旦得手，他们可以盗取用户帐户信息，修改用户设置，盗取/污染cookie和植入恶意广告等
@@ -17,5 +19,8 @@ XSS(Cross Site Scripting) 在有漏洞的程序中插入JavaScript、VBScript、
 ```go
 <script>alert()</script> //原
 &lt;script&gt;alert()&lt;/script&gt  //转义后
-
 ```
+
+#### 与CSRF的区别
+
+XSS 是代码注入问题，CSRF 是 HTTP 问题。

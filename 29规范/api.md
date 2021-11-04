@@ -19,3 +19,14 @@
 ## 技巧
 
 - 使用 `google.protobuf.FieldMask` 来设置一些字段的部分更新
+
+## 接口管理工具
+
+- [YAPI](https://github.com/YMFE/yapi)
+- [swagger](https://swagger.io/)
+- [easy-mock](https://github.com/easy-mock/easy-mock)
+- [RAP](https://github.com/thx/RAP)
+
+## json to code
+
+- [quicktype](https://app.quicktype.io/)

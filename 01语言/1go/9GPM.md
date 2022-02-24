@@ -12,13 +12,22 @@
 
 要想运行一个 goroutine - `G`，那么一个线程 `M`，就必须持有一个该 goroutine 的上下文 `P`
 
+
 ### G(goroutine):
 
 表示一个goroutine。它包括栈、指令指针以及对于调用goroutines很重要的其它信息，比如阻塞它的任何channel。在可执行代码里，它被称为G。
 
+#### G的分类
+
+- 执行用户任务的叫做`g`，起始只有2KB，可扩容。
+- 执行 runtime.main 的 main goroutine。
+- 执行调度任务的叫`g0`，每一个`m`都仅只有一个`g0`，默认系统栈大小`8M`，不能扩缩容。
+
 ### M(machine):系统线程
 
 表示OS线程，`它是由OS管理的可执行程序的一个线程`，而且工作起来特别像你的标准POSIX线程。在运行时代码里，它被成为M，即机器（machine）。
+
+>| m0 是Go Runtime所创建的第一个系统线程，一个Go进程只有一个 m0，也叫主线程。
 
 ### P(process):处理器,调度上下文
 

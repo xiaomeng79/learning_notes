@@ -78,4 +78,12 @@ type MemStats struct {
 ### web
 ```bash
  go tool pprof http://127.0.0.1:6060/debug/pprof/heap
+ go tool pprof --http=:8080 ~/Downloads/profile
 ```
+
+### heap profile
+```
+heap profile: 20: 150400 [840: 4845720] @ heap/1048576
+10: 122880 [37: 454656] @ 0x8b0988 0x472f52 0x8b0a26 0x8b091f 0x46a1c1
+```
+10:代表当前的分配对象 122880：代表当前分配的字节数  37:代表总分配对象数 454656：代表总分配的字节数

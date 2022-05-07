@@ -1,5 +1,10 @@
 # Substrate
 
+## 资料
+
+- [awesome-substrate](https://github.com/substrate-developer-hub/awesome-substrate)
+- [open-runtime-module-library](https://github.com/open-web3-stack/open-runtime-module-library)
+- [Polkadot 技术速览](https://blog.dteam.top/posts/2020-03/an-introduction-to-polkadot.html)
 
 ## 智能合约
 

@@ -10,6 +10,7 @@
 
 - [ink](https://github.com/paritytech/ink)
 - [europa](https://github.com/patractlabs/europa) 沙箱环境
+- [openbrush](https://docs.openbrush.io/) rust版本的`openzeppelin`
 
 ## 部署
 

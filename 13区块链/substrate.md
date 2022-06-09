@@ -9,6 +9,7 @@
 ## 智能合约
 
 - [ink](https://github.com/paritytech/ink)
+- [substrate-contracts-book](https://github.com/patractlabs/substrate-contracts-book) 智能合约相关
 - [europa](https://github.com/patractlabs/europa) 沙箱环境
 - [openbrush](https://docs.openbrush.io/) rust版本的`openzeppelin`
 

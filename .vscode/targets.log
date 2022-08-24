@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jun  9 18:52:31 2022
+# Make data base, printed on Wed Aug 24 10:03:49 2022
 
 # Variables
 
@@ -26,8 +24,6 @@ DESKTOP_SESSION = ubuntu
 XDG_SESSION_CLASS = user
 # environment
 XDG_SESSION_TYPE = x11
-# environment
-VSCODE_LOG_NATIVE = false
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
@@ -45,11 +41,11 @@ CURDIR := /home/meng/文档/project/other/learning_notes
 # makefile
 SHELL = /bin/sh
 # environment
-VSCODE_NLS_CONFIG = {"locale":"zh-cn","availableLanguages":{"*":"zh-cn"},"_languagePackId":"42e84e0914b17800d483f69e299e1b00.zh-cn","_translationsConfigFile":"/home/meng/.config/Code/clp/42e84e0914b17800d483f69e299e1b00.zh-cn/tcf.json","_cacheRoot":"/home/meng/.config/Code/clp/42e84e0914b17800d483f69e299e1b00.zh-cn","_resolvedLanguagePackCoreLocation":"/home/meng/.config/Code/clp/42e84e0914b17800d483f69e299e1b00.zh-cn/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5","_corruptedFile":"/home/meng/.config/Code/clp/42e84e0914b17800d483f69e299e1b00.zh-cn/corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"zh-cn","availableLanguages":{"*":"zh-cn"},"_languagePackId":"cc0490d1397af23dc5bf44a96fe15dbb.zh-cn","_translationsConfigFile":"/home/meng/.config/Code/clp/cc0490d1397af23dc5bf44a96fe15dbb.zh-cn/tcf.json","_cacheRoot":"/home/meng/.config/Code/clp/cc0490d1397af23dc5bf44a96fe15dbb.zh-cn","_resolvedLanguagePackCoreLocation":"/home/meng/.config/Code/clp/cc0490d1397af23dc5bf44a96fe15dbb.zh-cn/da76f93349a72022ca4670c1b84860304616aaa2","_corruptedFile":"/home/meng/.config/Code/clp/cc0490d1397af23dc5bf44a96fe15dbb.zh-cn/corrupted.info","_languagePackSupport":true}
 # environment
 _ = /usr/share/code/code
 # environment
-JOURNAL_STREAM = 8:48537
+JOURNAL_STREAM = 8:50322
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # makefile
@@ -69,9 +65,7 @@ VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
-VSCODE_VERBOSE_LOGGING = true
-# environment
-MANAGERPID = 1388
+MANAGERPID = 1551
 # environment
 CLUTTER_IM_MODULE = fcitx
 # environment
@@ -93,7 +87,9 @@ GJS_DEBUG_OUTPUT = stderr
 # environment
 C_INCLUDE_PATH = /usr/local/include/openssl
 # environment
-SESSION_MANAGER = local/meng-TM1701:@/tmp/.ICE-unix/1609,unix/meng-TM1701:/tmp/.ICE-unix/1609
+SESSION_MANAGER = local/meng-TM1701:@/tmp/.ICE-unix/1771,unix/meng-TM1701:/tmp/.ICE-unix/1771
+# environment
+BUF_TOKEN = 261cb8d7e7064a92ada15f9c4a9ff55252c1c16ed9d84ca8b670d271aa84d450
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -101,11 +97,9 @@ GOPATH = /home/meng/go
 # environment
 XDG_MENU_PREFIX = gnome-
 # environment
-VSCODE_LOG_STACK = false
-# environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = 12101ff18c9040eab588b5d5d7bf1369
+INVOCATION_ID = b33804d536fd4df1a2288f91c9e4e9ae
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -115,7 +109,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 45376
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2105
 # automatic
 %F = $(notdir $%)
 # environment
@@ -123,13 +117,11 @@ DISPLAY = :1
 # environment
 GTK_IM_MODULE = fcitx
 # environment
-VSCODE_PIPE_LOGGING = true
-# environment
 PWD = /home/meng/文档/project/other/learning_notes
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 1563
+SSH_AGENT_PID = 1725
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -145,11 +137,11 @@ LD_LIBRARY_PATH = /usr/local/include/openssl
 # environment
 LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
-VSCODE_CODE_CACHE_PATH = /home/meng/.config/Code/CachedData/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5
+VSCODE_CODE_CACHE_PATH = /home/meng/.config/Code/CachedData/da76f93349a72022ca4670c1b84860304616aaa2
 # environment
 LOGNAME = meng
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # automatic
 +F = $(notdir $+)
 # environment
@@ -174,8 +166,6 @@ QT_IM_MODULE = fcitx
 SHLVL = 0
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
-# environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-eeb6e4d1-b7cd-4dd6-8231-363297b51716.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
@@ -201,7 +191,7 @@ MAKE_COMMAND := make
 # environment
 LANGUAGE = zh_CN:zh:en_US:en
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-caca5b01-1.67.2-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-caca5b01-1.70.0-main.sock
 # makefile
 MAKEFLAGS = pqrR
 # environment
@@ -249,9 +239,9 @@ LC_ADDRESS = zh_CN.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 45376
+VSCODE_PID = 2105
 # variable set hash-table stats:
-# Load=119/1024=12%, Rehash=0, Collisions=25/141=18%
+# Load=115/1024=11%, Rehash=0, Collisions=24/137=18%
 
 # Pattern-specific Variable Values
 
@@ -259,9 +249,9 @@ VSCODE_PID = 45376
 
 # Directories
 
-# . (device 66306, inode 6950257): 40 files, no impossibilities.
+# . (device 66306, inode 6950257): 42 files, no impossibilities.
 
-# 40 files, no impossibilities in 1 directories.
+# 42 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -281,7 +271,6 @@ Makefile:
 #  Implicit rule search has been done.
 #  File does not exist.
 #  File has been updated.
- 
 #  Failed to be updated.
 
 # Not a target:
@@ -296,6 +285,9 @@ makefile:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+
+ 
+make: *** No rule to make target 'all'.  Stop.
 
 # Not a target:
 GNUmakefile:
@@ -312,12 +304,12 @@ GNUmakefile:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 48 / storage = 565 B / avg = 11 B
-# current buf: size = 8162 B / used = 565 B / count = 48 / avg = 11 B
+# strcache buffers: 1 (0) / strings = 50 / storage = 589 B / avg = 11 B
+# current buf: size = 8162 B / used = 589 B / count = 50 / avg = 11 B
 
-# strcache performance: lookups = 51 / hit rate = 5%
+# strcache performance: lookups = 53 / hit rate = 5%
 # hash-table stats:
-# Load=48/8192=1%, Rehash=0, Collisions=1/51=2%
-# Finished Make data base on Thu Jun  9 18:52:31 2022
+# Load=50/8192=1%, Rehash=0, Collisions=1/53=2%
+# Finished Make data base on Wed Aug 24 10:03:49 2022
 
  

@@ -1,6 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/home/meng/文档/project/other/learning_notes'
-make: Leaving directory '/home/meng/文档/project/other/learning_notes'
- 
-make: *** No targets specified and no makefile found.  Stop.
-

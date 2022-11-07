@@ -1,0 +1,128 @@
+version: '3.2'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - '9090:9090'
+    user: '0'
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus/data'
+      - '--storage.tsdb.retention=90d'
+      - '--web.enable-lifecycle'
+    volumes:
+      - ./etc/prometheus:/etc/prometheus
+      - ./data/prometheus/data:/prometheus/data
+  #   depends_on:
+  #     - cadvisor
+
+  # cadvisor:
+  #   image: google/cadvisor:latest
+  #   container_name: cadvisor
+  #   restart: unless-stopped
+  #   ports:
+  #     - '8080:8080'
+  #   volumes:
+  #     - /:/rootfs:ro
+  #     - /var/run:/var/run:rw
+  #     - /sys:/sys:ro
+  #     - /var/lib/docker/:/var/lib/docker:ro
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    ports:
+      - '9100:9100'
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+      - '--collector.textfile.directory=/node_exporter/prom'
+    volumes:
+      - /proc:/host/proc
+      - /sys:/host/sys
+      - /:/rootfs
+      - ./etc/node_exporter/prom:/node_exporter/prom
+
+  node-exporter-01:
+    image: prom/node-exporter:latest
+    container_name: node-exporter-01
+    restart: unless-stopped
+    ports:
+      - '9101:9100'
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+      - '--collector.textfile.directory=/node_exporter/prom'
+    volumes:
+      - /proc:/host/proc
+      - /sys:/host/sys
+      - /:/rootfs
+      - ./etc/node_exporter/prom:/node_exporter/prom
+
+  grafana:
+    image: grafana/grafana:8.5.11
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    user: '0'
+    volumes:
+      - ./data/grafana8:/var/lib/grafana
+      - ./etc/grafana/grafana.ini:/etc/grafana/grafana.ini
+    environment:
+      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=vertamedia-clickhouse-datasource
+      - GF_SECURITY_ADMIN_PASSWORD=password
+      - GF_USERS_ALLOW_SIGN_UP=false
+    
+  prometheusalert:
+    image: feiyu563/prometheus-alert:latest
+    container_name: prometheusalert
+    restart: unless-stopped
+    ports:
+      - '8080:8080'
+    user: '0'
+    volumes:
+      - ./etc/prometheusalert/app.conf:/app/conf/app.conf
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=password
+      - PA_LOGIN_USER=prometheusalert
+      - PA_LOGIN_PASSWORD=prometheusalert
+      - PA_TITLE=PrometheusAlert
+      - PA_OPEN_FEISHU=1
+      - PA_OPEN_DINGDING=1
+      - PA_OPEN_WEIXIN=1
+
+  clickhouse:
+    image: yandex/clickhouse-server
+    container_name: clickhouse
+    restart: unless-stopped
+    ports:
+      - 34424:34424
+      - 9000:9000
+      - 9009:9009
+      - 8123:8123
+    user: '0'
+    volumes:
+      - ./data/clickhouse/data:/var/lib/clickhouse
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  blackbox:
+    image: prom/blackbox-exporter:latest
+    container_name: blackbox
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/blackbox/blackbox.yml"
+    ports:
+      - 9115:9115
+    user: '0'
+    volumes:
+      - ./etc/blackbox/blackbox.yml:/etc/blackbox/blackbox.yml

@@ -4,3 +4,4 @@
 4. https://natapp.cn 端口映射 xiaomeng79  mqf19890715_null
 6. https://www.geogebra.org/  数学画图工具
 7. https://www.yunpanjingling.com/  云盘资料
+8. https://github.com/immersive-translate/immersive-translate  翻译

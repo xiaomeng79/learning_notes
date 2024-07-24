@@ -6,7 +6,7 @@
   - [ohmyz](https://ohmyz.sh/)
   - [brew](https://brew.sh/)
   - [vscode](https://code.visualstudio.com/)
-  - [clashX](https://github.com/yichengchen/clashX) [nodefree](https://clashgithub.github.io/)
+  - [clashX](https://en.clashx.org/download/) [nodefree](https://clashgithub.github.io/)
   - [dbeaver](https://dbeaver.io/)
   - [tableplus](https://tableplus.com/)
   - [rustdesk](https://rustdesk.com/)

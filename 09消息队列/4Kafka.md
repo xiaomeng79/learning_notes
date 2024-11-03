@@ -52,7 +52,7 @@ leader会watch broker follower ,一旦有宕机的，就会读取zk上这个brok
 10. zookeeper在kafka中的作用：
 
 1) Producer端使用zookeeper用来"发现"broker列表,以及和Topic下每个partition leader建立socket连接并发送消息.
-2) Broker端使用zookeeper用来注册broker信息,已经监测partition leader存活性.
+2) Broker端使用zookeeper用来注册broker信息,以及监测partition leader存活性.
 3) Consumer端使用zookeeper用来注册consumer信息,其中包括consumer消费的partition列表等,同时也用来发现broker列表,并和partition leader建立socket连接,并获取消息。
 
 11. 3种消息传输一致

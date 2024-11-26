@@ -4,6 +4,25 @@
 - [比特币开发文档](https://developer.bitcoin.org/reference/rpc/)
 - [浏览器](https://btc.com/zh-CN)
 
+## 结构解析
+```go
+type Transaction struct {
+        ID   []byte //交易ID
+        Vin  []TXInput //输入集合
+        Vout []TXOutput //输出集合
+}
+type TXInput struct {
+	Txid      []byte //引用交易的ID
+	Vout      int //引用交易输出的索引,第几个
+	Signature []byte //签名,输出方私钥签名
+	PubKey    []byte //原始公钥信息,节点会验证签名和引用的输出公钥Hash是否相同
+}
+type TXOutput struct {
+	Value      int
+	PubKeyHash []byte
+}
+```
+
 ## 地址计算过程
 - 1开头的比特币地址是如何创建的：
   - 根据公钥计算hash160；

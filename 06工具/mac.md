@@ -3,7 +3,7 @@
 ## 工具
 
   - [iterm2](https://iterm2.com/)
-  - [ohmyz](https://ohmyz.sh/)
+  - [ohmyz](https://ohmyz.sh/) oh-my-zsh插件 zsh-autosuggestion自动补全 和 zsh-syntax-highlighting语法高亮
   - [brew](https://brew.sh/)
   - [vscode](https://code.visualstudio.com/)
   - [clashX](https://en.clashx.org/download/) [nodefree](https://clashgithub.github.io/)

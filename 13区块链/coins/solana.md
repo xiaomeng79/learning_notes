@@ -1,5 +1,8 @@
 # Solana
 
+## 教程
+- [solanazh](https://www.solanazh.com/)
+
 ## 资料
 - RPC 文档： https://solana.com/docs/rpc
 - github： https://github.com/solana-labs
@@ -7,6 +10,24 @@
 - 浏览器 2： https://solscan.io/
 - 钱包相关的资料： https://solana.com/developers/cookbook
 - solana web3js： https://github.com/solana-labs/solana-web3.js
+
+## 账户
+```rust
+// 其中的lamports表示账号余额，data表示存储的内容，owner表示这个Account可以被谁来操作，类似文件所有者。 如果是合约账号，这里data的内容就是合约编译后的代码，同时executable为true
+pub struct Account {
+        /// lamports in the account
+        pub lamports: u64,
+        /// data held in this account
+        #[serde(with = "serde_bytes")]
+        pub data: Vec<u8>,
+        /// the program that owns this account. If executable, the program that loads this account.
+        pub owner: Pubkey,
+        /// this account's data contains a loaded program (and is now read-only)
+        pub executable: bool,
+        /// the epoch at which this account will next owe rent
+        pub rent_epoch: Epoch,
+}
+```
 
 ## 介绍
 Solana 是一个高性能的区块链平台，旨在实现快速、安全且可扩展的去中心化应用（dApps）和加密货币交易。它的设计初衷是解决传统区块链网络在扩展性和速度方面的局限，特别是比特币和以太坊在交易吞吐量和确认时间上的瓶颈。

@@ -1,5 +1,11 @@
 # Solidity
 
+## 教程
+- [WTF学院](https://frontend-doctor-dc.vercel.app/docs/intro)
+- [视频教程01](https://www.bilibili.com/video/BV13a4y1F7V3/?spm_id_from=333.788.comment.all.click&vd_source=216c269c25aa3c3084573565ad368f6f)
+- [视频教程02](https://www.bilibili.com/video/BV1u8411k7Z7/?spm_id_from=333.788.comment.all.click&vd_source=216c269c25aa3c3084573565ad368f6f)
+
+## 概念
 - function 
 `function (<parameter types>) {internal|external} [pure|view|payable] [returns (<return types>)]`
     - function：声明函数。
@@ -99,3 +105,139 @@
     - 多重继承：继承时要按辈分最高到最低的顺序排。
         - 如果某一个函数在多个继承的合约里都存在，在子合约里必须重写，不然会报错。
         - 重写在多个父合约中重名函数时，override关键字后面要加上所有父合约名字，例如override(Yeye, Baba)。
+
+- 抽象合约
+一个智能合约里至少有一个未实现的函数（缺少主体{}），则必须将该合约标为abstract。未实现的函数需要加virtual。
+
+- 接口
+    > 接口类似于抽象合约，但它不实现任何功能。
+    > 接口和ABI等价，可转换。[abi-to-sol](https://gnidan.github.io/abi-to-sol/)
+    - 不能包含状态变量
+    - 不能包含构造函数
+    - 不能继承除接口外的其他合约
+    - 所有函数都必须是external且不能有函数体
+    - 继承接口的合约必须实现接口定义的所有功能
+
+- Error
+error必须搭配revert（回退）命令使用。
+
+- Require
+抛出异常的常用方法，唯一的缺点就是gas随着描述异常的字符串长度增加，比error命令要高。
+
+- Assert
+debug用
+
+- 函数重载
+允许重载，但是不允许修饰器（modifier）重载。
+
+- 库`library`函数
+    - 不能存在状态变量
+    - 不能够继承或被继承
+    - 不能接收以太币
+    - 不可以被销毁
+    ```solidity
+    // Strings库
+    // 1.利用using for指令
+    using Strings for uint256;
+    function getString1(uint256 _number) public pure returns(string memory){
+        // 库函数会自动添加为uint256型变量的成员
+        return _number.toHexString();
+    }
+    // 2. 通过库合约名称调用库函数
+    function getString2(uint256 _number) public pure returns(string memory){
+        return Strings.toHexString(_number);
+    }
+    ```
+
+- import用法
+    - 通过源文件相对位置导入
+    - 通过网址引用`import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol';`
+    - 通过npm的目录导入`import '@openzeppelin/contracts/access/Ownable.sol';`
+
+- receive和fallback 接收ETH
+    - receive：接收ETH函数，必须有`external payable`。
+    - 一些退款合约，嵌入恶意消耗gas的内容或者使得执行故意失败。
+    ```solidity
+        // 定义事件
+    event Received(address Sender, uint Value);
+    // 接收ETH时释放Received事件
+    // 不要太复杂，消耗gas高。
+    receive() external payable {
+        emit Received(msg.sender, msg.value);
+    }
+    ```
+    - fallback：可用于接收ETH，也可以用于代理合约proxy contract。
+    - 合约接收ETH时，msg.data为空且存在receive()时，会触发receive()；**msg.data不为空或不存在receive()时，会触发fallback()**，此时fallback()必须为payable。
+
+- Solidity有三种方法向其他合约发送ETH
+    - `transfer()`:接收方地址.transfer(发送ETH数额),gas限制是2300，gas足够前提是对方合约的fallback()或receive()函数不能实现太复杂的逻辑。
+    ```solidity
+    // 用transfer()发送ETH
+    // 如果转账失败，会自动revert（回滚交易）
+    function transferETH(address payable _to, uint256 amount) external payable{
+        _to.transfer(amount);
+    }
+    ```
+    - `send()`:接收方地址.send(发送ETH数额),gas限制是2300，gas足够前提是对方合约的fallback()或receive()函数不能实现太复杂的逻辑。如果转账失败，**不会revert**。
+    ```solidity
+    // send()发送ETH
+    function sendETH(address payable _to, uint256 amount) external payable{
+        // 处理下send的返回值，如果失败，revert交易并发送error
+        bool success = _to.send(amount);
+        if(!success){
+            revert SendFailed();
+        }
+    }
+    ```
+    - `call()`:接收方地址.call{value: 发送ETH数额}("")，没有gas限制，如果转账失败，不会revert。返回值是(bool, data)，其中bool代表着转账成功或失败，需要额外代码处理一下。**推荐使用**
+    ```solidity
+    // call()发送ETH
+    function callETH(address payable _to, uint256 amount) external payable{
+        // 处理下call的返回值，如果失败，revert交易并发送error
+        (bool success,) = _to.call{value: amount}("");
+        if(!success){
+            revert CallFailed();
+        }
+    }
+    ```
+
+- 调用合约
+`_Name(_Address).f()`:其中_Name是合约名，_Address是合约地址
+```solidity
+contract Test {
+    // 传入合约地址
+    function setOtherX(address _address,uint256 _x) external {
+        OtherContract(_address).setX(_x);
+    }
+    // 传入合约变量
+    function setOtherXByContract(OtherContract _address,uint256 _x) external  {
+        _address.setX(_x);
+    }
+}
+```
+
+- call
+call 是address类型的低级成员函数，它用来与其他合约交互。它的返回值为(bool, data)，分别对应call是否成功以及目标函数的返回值。
+`目标合约地址.call{value:发送数额, gas:gas数额}(二进制编码);`其中二进制编码生成：`abi.encodeWithSignature("函数签名", 逗号分隔的具体参数)`
+
+- delegatecall
+    - 代理合约B必须和目标合约C的变量存储布局必须相同。
+    - 与call类似，它可以用来调用其他合约；不同点在于运行的语境，B call C，语境为C；而B delegatecall C，语境为B。目前delegatecall最大的应用是代理合约和EIP-2535 Diamonds（钻石）。
+
+- 在合约中创建新合约
+    - `create`:`新地址 = hash(创建者地址, nonce)`
+    ```solidity
+    // 其中Contract是要创建的合约名，x是合约对象（地址），如果构造函数是payable，可以创建时转入_value数量的ETH，params是新合约构造函数的参数。
+    Contract x = new Contract{value: _value}(params)
+    ```
+    - `create2`:`新地址 = hash("0xFF",创建者地址, salt, bytecode)`
+        ```solidity
+        Contract x = new Contract{salt: _salt, value: _value}(params)
+        ```
+        - 部署到以太坊网络之前就能预测合约的创建码
+        - 应用场景
+            - 交易所为新用户预留创建钱包合约地址。
+            - 由 CREATE2 驱动的 factory 合约，在uniswapV2中交易对的创建是在 Factory中调用create2完成。这样做的好处是: 它可以得到一个确定的pair地址, 使得 Router中就可以通过 (tokenA, tokenB) 计算出pair地址, 不再需要执行一次 Factory.getPair(tokenA, tokenB) 的跨合约调用。
+
+- selfdestruct：删除合约
+

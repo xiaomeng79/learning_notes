@@ -1,16 +1,90 @@
 ## Kafka
 
-[小白也懂](http://www.sohu.com/a/144225753_236714)
-
-[详细原理](https://blog.csdn.net/ychenfeng/article/details/74980531)
-
-[深入研究](https://www.cnblogs.com/xifenglou/p/7251112.html)
-
 #### 架构图
 
-![架构图1](http://www.uml.org.cn/bigdata/images/2017072521.png)
-
 ![架构图2](https://images2015.cnblogs.com/blog/512650/201611/512650-20161103135336861-18609635.png)
+
+### 1. Kafka 的核心组件有哪些？
+- **Producer**：负责将消息发送到 Kafka。
+- **Consumer**：从 Kafka 消费消息。
+- **Broker**：Kafka 服务器，负责存储消息和处理消息请求。
+- **Zookeeper**：用于管理和协调 Kafka 集群（存储元数据、Leader 选举等）。
+- **Topic**：消息的类别，Producer 将消息发送到特定的 Topic。
+- **Partition**：Topic 被划分为多个 Partition，分布在多个 Broker 上。
+- **Consumer Group**：消费者组，允许多个消费者并行消费一个 Topic。
+
+### 2. Kafka 的工作流程是怎样的？
+- Producer 生产消息，并将消息写入到指定的 Topic。
+- Kafka Broker 将消息存储在 Topic 的 Partition 中。
+- Consumer 从 Kafka Broker 读取消息。消费者可以根据 Consumer Group 来划分不同的消费任务。
+
+### 3. Kafka 是如何保证高吞吐量的？
+- **分区（Partition）**：消息被分布到多个分区，允许并行处理。
+- **顺序写入（Sequential Writes）**：消息按顺序写入磁盘，避免了随机写入的性能瓶颈。
+- **批量处理**：Kafka 支持生产者端和消费者端的批量消息发送和消费，减少了 I/O 操作。
+- **压缩（Compression）**：Kafka 支持压缩消息，减少了存储和传输的带宽占用。
+
+### 4. Kafka 的存储机制是怎样的？
+Kafka 采用顺序写入日志的方式存储消息，每个消息都有一个唯一的 Offset，消息会被持久化到磁盘。Kafka 使用了基于分区的存储方式，消息以分区为单位存储，可以轻松扩展和负载均衡。
+
+### 5. Kafka 的生产者（Producer）和消费者（Consumer）如何交互？
+- 生产者将消息发送到 Kafka 的某个 Topic。
+- 消费者订阅一个或多个 Topic，拉取消息。
+- 消费者在消费时基于消息的 Offset 进行读取，可以选择提交（commit）或不提交（acknowledge）消息的 Offset。
+
+### 6. Kafka 是如何保证消息的顺序性的？
+Kafka 保证的是在同一个 Partition 中消息的顺序性。由于每个 Partition 中的消息是顺序写入的，所以消息的顺序在 Partition 内是有保证的。多个消费者组中的消费者之间不保证顺序。
+
+### 7. Kafka 是如何处理消息丢失问题的？
+- 每个 Partition 有多个副本，其中一个副本为 Leader，其他为 Follower。
+- 消息写入时会写入所有副本（可配置），确保数据的高可靠性。
+- 消息的持久化和副本机制保证即使部分 Broker 宕机，消息仍然不会丢失。
+
+### 8. Kafka 是如何实现分区（Partition）的？
+Kafka 将 Topic 分为多个 Partition，每个 Partition 可以在不同的 Broker 上。分区的数目可以根据需要进行配置，Partition 的划分使得 Kafka 可以横向扩展，支持高并发。
+
+### 9. Kafka 是如何进行 Leader 选举的？
+Kafka 使用 Zookeeper 来进行 Leader 选举。当一个 Partition 的 Leader 宕机时，Zookeeper 会检测到并触发选举，选举一个新的 Broker 来作为该 Partition 的 Leader。
+
+### 11. Kafka 副本（Replica）机制是如何工作的？
+每个 Partition 会有多个副本，其中一个副本为 Leader，负责读写操作；其他副本为 Follower，只负责同步数据。副本之间的同步是异步的，但 Kafka 会保证在 Leader 宕机时自动选举出新的 Leader。
+
+### 12. Kafka 的 Zookeeper 作用是什么？可以去掉 Zookeeper 吗？
+Zookeeper 在 Kafka 中主要用于：
+- 存储元数据（例如 Topic、Partition 的信息）。
+- 进行 Broker 的管理和负载均衡。
+- 进行 Leader 选举。
+  
+Kafka 在 2.8 版本引入了 KRaft 模式（Kafka Raft Metadata Mode），逐步去除 Zookeeper，实现了更加简化和高效的架构。
+
+### 14. Kafka 为什么比传统消息队列（RabbitMQ、ActiveMQ）快？
+Kafka 通过顺序写入、分区机制和批量处理的方式极大地提升了吞吐量，同时 Kafka 适合大规模分布式环境，并且能够高效地处理大量的消息。
+
+### 15. Kafka 生产者端如何优化消息发送？
+- **批量发送**：将多条消息打包成一批发送。
+- **压缩**：启用压缩算法（如 GZIP、Snappy）减少消息大小。
+- **异步发送**：生产者可以异步发送消息，避免等待响应，提高吞吐量。
+
+### 16. Kafka 是如何保证消息不丢失的？
+Kafka 通过副本机制和持久化存储来保证消息不丢失。消息写入时，会写入多个副本，确保数据的高可靠性。在消费者消费时，如果消息未被确认，消息可以重新投递。
+
+### 20. Kafka 如何扩容和缩容？
+扩容：通过增加新的 Broker 节点并将 Partition 副本分布到新的节点上。
+缩容：移除 Broker 后，调整 Partition 副本的分布，确保不会丢失数据。
+
+
+### 21. Kafka 发生 Leader 选举时会有哪些影响？
+在发生 Leader 选举时，该 Partition 会暂时无法进行读写操作，直到新的 Leader 被选举出来并恢复服务。
+
+### 22. 在 Kafka 中如何设计一个高可用、高吞吐的消息系统？
+- 配置多个 Partition 和副本，以确保高并发和容错能力。
+- 使用合适的生产者和消费者配置（如批量处理、压缩、异步等）。
+- 配置合理的消息过期时间，避免消息积压。
+- 使用合理的消息存储和清理策略。
+
+
+
+
 
 #### 概念
 
@@ -77,6 +151,32 @@ kafka保证消息被安全生产, 通过request.required.acks属性进行配置:
 
 kafka在所有broker中选出一个controller，所有Partition的Leader选举都由controller决定。controller会将Leader的改变直接通过RPC的方式（比Zookeeper Queue的方式更高效）通知需为此作出响应的Broker。同时controller也负责增删Topic以及Replica的重新分配
 
+15. 消费
+- 一个消费组，下面可以有多个消费者，策略(如：轮询)消费不同分区数据。
+- 多个消费组，每组都可以消费同样的topic下的全部数据。
+
+### **如何优化 Kafka 的性能？**
+1. **优化生产者**
+   - **批量发送**（`batch.size` 调大）
+   - **压缩消息**（`compression.type` 设置为 `snappy`）
+   - **异步发送**（`acks=1` 或 `acks=0` 提高吞吐）
+2. **优化 Broker**
+   - **增加分区数**（`num.partitions`）
+   - **副本异步刷盘**（`unclean.leader.election.enable=true`）
+3. **优化消费者**
+   - **多线程消费**（`poll()` 处理更多数据）
+   - **手动提交偏移量**（避免重复消费）
+
+16. 如何观察 Kafka 负载变化
+```shell
+GROUP                TOPIC         PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG        CONSUMER-ID
+my-consumer-group    my-topic      0          1000           1100            100        consumer-1
+my-consumer-group    my-topic      1          950            1050            100        consumer-2
+
+```
+- LAG（Log Append Gap）=最新的 Log End Offset−当前消费的 Offset。
+- PARTITION 列表：如果增加了新的分区，消费者会自动负载均衡。
+- LAG 值：表示未消费的消息量，若 LAG 过大，说明消费速度跟不上生产速度。
 
 
 

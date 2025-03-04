@@ -6,18 +6,18 @@ iface 和 eface 都是 Go 中描述接口的底层结构体，区别在于 iface
 ## iface
 ```go
 type iface struct {
-    tab  *itab
-    data unsafe.Pointer
+    tab  *itab           // 接口类型和方法表
+    data unsafe.Pointer // 指向实际数据的指针
 }
 type itab struct {
-    inter  *interfacetype
-    _type  *_type
+    inter  *interfacetype // 接口的类型信息
+    _type  *_type          // 动态类型（具体类型的元信息）
     link   *itab
-    hash   uint32 // copy of _type.hash. Used for type switches.
+    hash   uint32 // 类型哈希值（用于类型断言）
     bad    bool   // type does not implement interface
     inhash bool   // has this itab been added to hash?
     unused [2]byte
-    fun    [1]uintptr // variable sized
+    fun    [1]uintptr // 方法地址数组（动态派发入口）
 }
 ```
 - iface包含两个字段：tab 是接口表指针，指向类型信息；data 是数据指针，则指向具体的数据。它们分别被称为动态类型和动态值。而接口值包括动态类型和动态值。

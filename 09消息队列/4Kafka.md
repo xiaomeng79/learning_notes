@@ -83,16 +83,15 @@ Kafka 通过副本机制和持久化存储来保证消息不丢失。消息写�
 - 使用合理的消息存储和清理策略。
 
 
+### 常见面试问题
 1. kafka管理
 
 所有的broker都去zk上注册一个临时节点，只有一个可以注册成功，这个就是leader(controller)，其他就是broker follower
 leader会watch broker follower ,一旦有宕机的，就会读取zk上这个broker的partition，并选举ISR中replica作为partition leader
 
 2. 为什么kafka只能同一个组中的一个consumer去消费数据
-
-因为不想使用悲观锁来控制并发，这样吞吐量会下降,如果觉得效率不高的时候，加partition的数量来横向拓展，如果想多个不同的业务消费同样的数据
-就启动多个consumer group，最优的设计就是，consumer group下的consumer thread的数量等于partition数量，这样效率是最高的
-
+- 因为不想使用悲观锁来控制并发，这样吞吐量会下降,如果觉得效率不高的时候，加partition的数量来横向拓展。
+- 如果想多个不同的业务消费同样的数据，就启动多个consumer group，最优的设计就是，consumer group下的consumer thread的数量等于partition数量，这样效率是最高的
 
 3. producer将数据push给broker，consumer将数据pull进行处理，这样的好处是，broker设计简单，不需要感知consumer
 的存在，consumer也不会有较大的压力，处理多少拿多少
@@ -146,19 +145,9 @@ kafka在所有broker中选出一个controller，所有Partition的Leader选举�
 - 一个消费组，下面可以有多个消费者，策略(如：轮询)消费不同分区数据。
 - 多个消费组，每组都可以消费同样的topic下的全部数据。
 
-### **如何优化 Kafka 的性能？**
-1. **优化生产者**
-   - **批量发送**（`batch.size` 调大）
-   - **压缩消息**（`compression.type` 设置为 `snappy`）
-   - **异步发送**（`acks=1` 或 `acks=0` 提高吞吐）
-2. **优化 Broker**
-   - **增加分区数**（`num.partitions`）
-   - **副本异步刷盘**（`unclean.leader.election.enable=true`）
-3. **优化消费者**
-   - **多线程消费**（`poll()` 处理更多数据）
-   - **手动提交偏移量**（避免重复消费）
 
 16. 如何观察 Kafka 负载变化
+
 ```shell
 GROUP                TOPIC         PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG        CONSUMER-ID
 my-consumer-group    my-topic      0          1000           1100            100        consumer-1
@@ -168,6 +157,15 @@ my-consumer-group    my-topic      1          950            1050            100
 - LAG（Log Append Gap）=最新的 Log End Offset−当前消费的 Offset。
 - PARTITION 列表：如果增加了新的分区，消费者会自动负载均衡。
 - LAG 值：表示未消费的消息量，若 LAG 过大，说明消费速度跟不上生产速度。
+
+
+17. kafka扩容
+
+| ​**扩容类型**​         | 是否自动？                | 关键依赖                  |
+|----------------------|---------------------------|--------------------------|
+| Broker 节点扩容      | 否（需手动或工具辅助）     | 分区重分配工具            |
+| Topic 分区扩容       | 否（必须手动修改配置）     | `kafka-topics.sh --alter` |
+| 副本扩容             | 否（需手动指定副本分布）   | 副本分配策略              |
 
 
 

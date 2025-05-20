@@ -14,6 +14,7 @@ type _defer struct {
 
 ## 执行
 后进先出
+defer 在 return 后执行 ，但函数的最终返回发生在所有 defer 执行完毕之后。
 
 ## 性能影响
 - 高频调用、循环中的 defer 可能影响性能，需谨慎使用。

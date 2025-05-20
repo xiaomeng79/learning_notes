@@ -19,3 +19,39 @@
 ## 如何避免 context 泄漏？
 - 始终调用 defer cancel() 确保资源释放。
 - 在子协程中监听 ctx.Done() 信号，及时退出。
+
+## 底层结构
+```go
+type Context interface {
+    Deadline() (deadline time.Time, ok bool)  // 返回截止时间（如有）
+    Done() <-chan struct{}                   // 返回取消信号通道
+    Err() error                              // 返回取消原因
+    Value(key any) any                       // 获取键值对
+}
+
+type emptyCtx int
+
+func (*emptyCtx) Deadline() (deadline time.Time, ok bool) { return }
+func (*emptyCtx) Done() <-chan struct{}    { return nil }
+func (*emptyCtx) Err() error               { return nil }
+func (*emptyCtx) Value(key any) any         { return nil }
+
+var (
+    background = new(emptyCtx) // context.Background()
+    todo       = new(emptyCtx) // context.TODO()
+)
+
+type cancelCtx struct {
+    Context                // 嵌入父上下文
+    mu       sync.Mutex    // 保护以下字段
+    done     atomic.Value  // 保存 chan struct{}（懒初始化）
+    children map[canceler]struct{} // 子上下文集合
+    err      error         // 取消原因（第一次调用 cancel 时设置）
+}
+type timerCtx struct {
+    cancelCtx               // 内嵌 cancelCtx
+    timer    *time.Timer    // 定时器
+    deadline time.Time      // 绝对截止时间
+}
+
+```

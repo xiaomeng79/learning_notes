@@ -29,6 +29,62 @@ pub struct Account {
 }
 ```
 
+## 交易和指令
+
+### 交易
+交易包含调用网络上程序的指令，特性:
+- 交易具有原子性——如果任何指令失败，整个交易失败且不会发生任何更改。
+- 交易中的指令按顺序依次执行。
+- 交易的大小限制为 1232 字节，来源于 IPv6 最大传输单元 (MTU) 的大小 1280 字节，减去网络头的 48 字节（40 字节 IPv6 + 8 字节分片头）。。
+
+### 指令
+调用程序的指令需要以下三个关键信息：
+- 程序 ID：包含指令执行逻辑的程序
+- 账户：指令所需的账户列表
+- 指令数据：字节数组，指定要在程序上调用的指令以及指令所需的任何参数
+```rust
+pub struct Transaction {
+    #[wasm_bindgen(skip)]
+    #[serde(with = "short_vec")]
+    pub signatures: Vec<Signature>,
+
+    #[wasm_bindgen(skip)]
+    pub message: Message,
+}
+pub struct Message {
+    /// The message header, identifying signed and read-only `account_keys`.
+    pub header: MessageHeader,
+
+    /// All the account keys used by this transaction.
+    #[serde(with = "short_vec")]
+    pub account_keys: Vec<Pubkey>,
+
+    /// 作为时间戳，防止重复交易，区块哈希在 150个区块后过期
+    pub recent_blockhash: Hash,
+
+    /// Programs that will be executed in sequence and committed in
+    /// one atomic transaction if all succeed.
+    #[serde(with = "short_vec")]
+    pub instructions: Vec<CompiledInstruction>,
+}
+pub struct Instruction {
+    /// Pubkey of the program that executes this instruction.
+    pub program_id: Pubkey,
+    /// Metadata describing accounts that should be passed to the program.
+    pub accounts: Vec<AccountMeta>,
+    /// Opaque data passed to the program for its own interpretation.
+    pub data: Vec<u8>,
+}
+pub struct AccountMeta {
+    /// An account's public key.
+    pub pubkey: Pubkey,
+    /// True if an `Instruction` requires a `Transaction` signature matching `pubkey`.
+    pub is_signer: bool,
+    /// True if the account data or metadata may be mutated during program execution.
+    pub is_writable: bool,
+}
+```
+
 ## 介绍
 Solana 是一个高性能的区块链平台，旨在实现快速、安全且可扩展的去中心化应用（dApps）和加密货币交易。它的设计初衷是解决传统区块链网络在扩展性和速度方面的局限，特别是比特币和以太坊在交易吞吐量和确认时间上的瓶颈。
 
@@ -65,14 +121,13 @@ Solana 是一个高性能的区块链平台，旨在实现快速、安全且可�
 - dApps 和项目： Solana 上已经构建了多个去中心化应用和项目，包括去中心化金融（DeFi）平台、NFT 市场、游戏等。例如，知名的 Serum 去中心化交易所就是基于 Solana 构建的。
 - 社区和开发者支持： Solana 具有活跃的开发者社区，并提供了丰富的开发工具和资源，如 Solana SDK 和开发者文档，以支持开发者在其平台上构建应用。
 
-## 优势与挑战
-- 优势
-  - 高性能和可扩展性使其适合处理大量交易和复杂应用。
-  - 低交易费用吸引了大量用户和开发者。
-  - 强大的技术基础和不断扩展的生态系统增加了其市场竞争力。
-- 挑战
-  - 与其他区块链平台（如以太坊、Cardano 等）的竞争依然激烈。
-  - 面临着去中心化程度和安全性的平衡问题，需要持续改进和创新。
+## Epoch 的定义
+- 每个 Slot 是 Solana 的最小时间单位（约 400 毫秒）。
+- Epoch是Solana 中的一个时间段，由多个 Slot 组成。
+- 每个 Epoch 的长度固定为 432,000 个 Slot ，大约持续 2 天 （48 小时）。
+- 每个 Epoch 开始时，网络会重新选举验证者集合。
+- 每个 Epoch 结束后，系统会根据验证者的贡献（如出块、投票）发放奖励。
+- 每个 Epoch 结束时，网络会生成状态快照（Snapshot），用于节点同步和数据恢复。
 
 ## 钱包开发相关的 RPC 接口
 
@@ -86,7 +141,8 @@ Solana 是一个高性能的区块链平台，旨在实现快速、安全且可�
 - getConfirmedBlock：根据区块号获取里面的交易
 - getConfirmedTransaction：根据交易 Hash 获取交易详情
 - sendTransaction：发送交易到区块链网络
-- 
+
+
 
 
 

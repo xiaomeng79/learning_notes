@@ -11,6 +11,7 @@
   - [tableplus](https://tableplus.com/)
   - [rustdesk](https://rustdesk.com/)
   - [microsoft-remote-desktop-for-mac](https://install.appcenter.ms/orgs/rdmacios-k2vy/apps/microsoft-remote-desktop-for-mac/distribution_groups/all-users-of-microsoft-remote-desktop-for-mac)
+  - [java](https://www.azul.com/downloads/?package=jdk#download-openjdk)
 
 
 ## 关闭禁用 ReportCrash

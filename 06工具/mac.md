@@ -6,7 +6,7 @@
   - [ohmyz](https://ohmyz.sh/) oh-my-zsh插件 zsh-autosuggestion自动补全 和 zsh-syntax-highlighting语法高亮
   - [brew](https://brew.sh/)
   - [vscode](https://code.visualstudio.com/)
-  - [clashX](https://en.clashx.org/download/) [nodefree](https://clashgithub.github.io/)
+  - [clashX](https://en.clashx.org/download/) [nodefree](https://clashgithub.github.io/) [oneclash](https://oneclash.githubrowcontent.com/2025/06/20250617.yaml)
   - [dbeaver](https://dbeaver.io/)
   - [tableplus](https://tableplus.com/)
   - [rustdesk](https://rustdesk.com/)

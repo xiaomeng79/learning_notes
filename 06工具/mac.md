@@ -5,7 +5,7 @@
   - [iterm2](https://iterm2.com/)
   - [ohmyz](https://ohmyz.sh/) oh-my-zsh插件 zsh-autosuggestion自动补全 和 zsh-syntax-highlighting语法高亮
   - [brew](https://brew.sh/)
-  - [vscode](https://code.visualstudio.com/) [cursor](https://www.cursor.com/) 编辑器
+  - [vscode](https://code.visualstudio.com/) [cursor](https://www.cursor.com/) 编辑器 [cursor free](https://github.com/yuaotian/go-cursor-help)
   - [clashX](https://en.clashx.org/download/) [nodefree](https://clashgithub.github.io/) [oneclash](https://oneclash.githubrowcontent.com/2025/06/20250617.yaml)
   - [dbeaver](https://dbeaver.io/)
   - [tableplus](https://tableplus.com/)

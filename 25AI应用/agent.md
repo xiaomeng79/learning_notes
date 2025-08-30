@@ -1,5 +1,8 @@
 # AI Agent
 
+## 资料
+- [google-adk](https://google.github.io/adk-docs/agents/)
+
 ## 什么是AI Agent
 一般叫智能体，能力为：通过感知环境、再有知识库增强、通过大模型推理决策、然后执行。
 

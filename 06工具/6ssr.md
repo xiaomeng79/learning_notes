@@ -2,6 +2,7 @@
 
 - [科学上网](https://github.com/Alvin9999/new-pac)
 - [autossr](http://voken.io/zh_CN/latest/services/autossr.html)
+- [mojie](https://mojie.app/login)
 
 #### 访问不了`raw.githubusercontent.com`
 ```bash

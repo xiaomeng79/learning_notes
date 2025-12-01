@@ -2,7 +2,7 @@
 
 ## 资料
 - [google-adk](https://google.github.io/adk-docs/agents/)
-- [agentic-design-patterns](https://github.com/xindoo/agentic-design-patterns.git)
+- [agentic-design-patterns](https://github.com/xindoo/agentic-design-patterns.git) [Agent设计模式](./Agent设计模式.md)
 ## 什么是AI Agent
 一般叫智能体，能力为：通过感知环境、再有知识库增强、通过大模型推理决策、然后执行。
 

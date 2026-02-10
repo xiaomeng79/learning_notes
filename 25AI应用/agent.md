@@ -1,5 +1,11 @@
 # AI Agent
 
+## AI四阶段论：
+- 第一个阶段是让机器能听能看的“感知AI”。
+- 第二阶段是能写诗作画的“生成式AI”。
+- 现在我们正跨入第三阶段——“代理式AI”，这就是Agent。
+- 而终局则是“具身智能AI“
+
 ## 资料
 - [google-adk](https://google.github.io/adk-docs/agents/)
 - [agentic-design-patterns](https://github.com/xindoo/agentic-design-patterns.git) [Agent设计模式](./Agent设计模式.md)
